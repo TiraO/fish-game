@@ -3,14 +3,12 @@
 	<head>
 		<meta charset=utf-8>
 		<title>Fish Game</title>
-		<script src="raphael.js"></script>
-		<!--
-		<script src="/other/ralphio.js"></script>
-		<script>if(location.host=="1j01.koding.com")document.createElement("script").src="/kc.js"</script>
-		-->
+		
+		<!--raphael can't be loaded by require.js'-->
+		<script src="js/vendor/raphael.js"></script>
 		<style>body,html{padding:0;margin:0;width:100%;height:100%}</style>
 	</head>
 	<body>
-		<script src="game.js"></script>
+		<script data-main="js/main" src="js/require.js"></script>
 	</body>
 </html>
