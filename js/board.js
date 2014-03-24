@@ -11,9 +11,6 @@ define(function (require) {
   var equilateralTriangleHeight = Math.sqrt(3)/2.0;
 
   return Backbone.Model.extend({
-    initialize: function(){
-
-    },
 
     size: function(){
       return this.get('size');
