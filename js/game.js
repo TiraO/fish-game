@@ -3,10 +3,10 @@ define(function (require) {
   "use strict";
 
   var
-     _           = require('underscore'),
-     Backbone    = require('backbone'),
+     _         = require('underscore'),
+     Backbone  = require('backbone'),
 
-     Board = require('board'),
+     Board     = require('board'),
      BoardView = require('boardView');
 
   return Backbone.View.extend({
