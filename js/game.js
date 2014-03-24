@@ -3,7 +3,9 @@ define(function (require) {
     "use strict";
  
     var _           = require('underscore'),
-        Backbone    = require('backbone');
+        Backbone    = require('backbone'),
+        
+        Board = require('board');
         
         
     return Backbone.View.extend({
@@ -26,29 +28,24 @@ define(function (require) {
             }*/
             
             
-            var board=[];
+            var board= new Board({
+                size: 12,
+                center: {
+            	    x: parseFloat(getComputedStyle(document.documentElement).width)/2,
+                    y: parseFloat(getComputedStyle(document.documentElement).height)/2
+            	},
+            });
+            
             var cardTypes=["Put back a F.F.F. card.","Pick up a F.F.F. card.","Lose next turn.","Escape to the nearest cave."];
             var deck=[];
             
             var boardSet=paper.set();
             
             var mouse = {};
-            var center = {};
-            var boardRadius;
-            var board = {size: 12};
             drawBoard();
             
             function drawBoard(){
             	boardSet.remove();
-            	
-            	center = {
-            	    x: parseFloat(getComputedStyle(document.documentElement).width)/2,
-                    y: parseFloat(getComputedStyle(document.documentElement).height)/2
-            	};
-            	
-                board.radius=Math.min(center.x,center.y)*0.9;
-                board.center = center;
-                
                 /// draw caves
                 drawCaves(board);
             	
@@ -59,7 +56,7 @@ define(function (require) {
                 
                 var mouseSpace = getBoardCoordinates(mouse.x, mouse.y, board);
             //    var position = getScreenCoordinates(mouseSpace.x, mouseSpace.y, centerX, centerY, boardRadius);
-            //	boardSet.push(paper.circle(position.x, position.y, getColumnWidth(boardRadius)/10.0).attr({"fill":"rgba(0,155,155,0.5)"}));
+            //	boardSet.push(paper.circle(position.x, position.y, board.columnWidth()/10.0).attr({"fill":"rgba(0,155,155,0.5)"}));
               
               
             //   //Make it look all ugly and stuff.
@@ -74,12 +71,13 @@ define(function (require) {
             
             function drawCaves(board){
                 // centerX, centerY, boardRadius, boardSize){
-                var centerX = board.center.x;
-                var centerY = board.center.y;
-                var boardRadius = board.radius;
-                var boardSize = board.size;
+                var centerX = board.center().x;
+                var centerY = board.center().y;
+                var boardRadius = board.radius();
+                var boardSize = board.size();
                 
-                	var d="M"+(centerX+Math.sin(pi*2/3)*boardRadius)+" "+(centerY+Math.cos(pi*2/3)*boardRadius);
+                var d="M"+(centerX+Math.sin(pi*2/3)*boardRadius)+" "+(centerY+Math.cos(pi*2/3)*boardRadius);
+            	console.log('d', d);
             	for(var s=0; s<6; s++){
             		var sidex1=centerX+Math.sin(pi*(2+s)/3)*boardRadius;
             		var sidey1=centerY+Math.cos(pi*(2+s)/3)*boardRadius;
@@ -101,10 +99,10 @@ define(function (require) {
             
             function drawTriangles(board, boardSet){
                 // centerX, centerY, boardRadius, boardSize, boardSet){
-                var centerX = board.center.x;
-                var centerY = board.center.y;
-                var boardRadius = board.radius;
-                var boardSize = board.size;
+                var centerX = board.center().x;
+                var centerY = board.center().y;
+                var boardRadius = board.radius();
+                var boardSize = board.size();
                 
                 for(var s=0; s<6; s++){
             		var sidex1=centerX+Math.sin(pi*(2+s)/3)*boardRadius;
@@ -126,36 +124,28 @@ define(function (require) {
             		}
             	}
             	
-                for(var yFromTop = 0; yFromTop<getRowCount(); yFromTop++){
-                    for(var xFromCenter = minXAt(yFromTop); xFromCenter < maxXAt(yFromTop); xFromCenter++){
-                        var position = getScreenCoordinates(xFromCenter, yFromTop, board.center.x, board.center.y, board.radius);
+                for(var yFromTop = 0; yFromTop<board.rowCount(); yFromTop++){
+                    for(var xFromCenter = board.minXAt(yFromTop); xFromCenter < board.maxXAt(yFromTop); xFromCenter++){
+                        var position = getScreenCoordinates(xFromCenter, yFromTop, board.center().x, board.center().y, board.radius());
                         var fillColor;
                         if((Math.abs(xFromCenter+yFromTop+0.5))%4<=0.5 && (Math.abs(xFromCenter-yFromTop+0.5))%3<=0.75){
-                    		fillColor = "rgba(255,255,155,1)";
+                    		fillColor = "#FF0";//rgba(255,255,155,1)";
                     	}else{
-                    		fillColor = "rgba(255,155,155,0.5)";
+                    		fillColor = "#FF0";//rgba(255,155,155,0.5)";
                     	}
-                    	boardSet.push(paper.circle(position.x, position.y, getColumnWidth(boardRadius)*.5).attr({"fill":fillColor}));
+                    	boardSet.push(paper.circle(position.x, position.y, board.columnWidth()*.5).attr({"fill":fillColor}));
                     }
                 } 
             }
             
             function drawMouseCircle(){
                 var mouseSpace = getBoardCoordinates(mouse.x, mouse.y, board);
-                var position = getScreenCoordinates(mouseSpace.x, mouseSpace.y, board.center.x, board.center.y, board.radius);
+                var position = getScreenCoordinates(mouseSpace.x, mouseSpace.y, board.center().x, board.center().y, board.radius());
                 var r = Math.random()*255;    
                 var g = Math.random()*255;    
                 var b = Math.random()*255;
-                boardSet.push(paper.circle(position.x, position.y, getColumnWidth(boardRadius)/10.0).attr({"fill":"rgba(" + r + ","+ g + "," + b +",0.5)"}));
-                boardSet.push(paper.circle(mouse.x, mouse.y, getColumnWidth(boardRadius)/15.0).attr({"fill":"rgba(" + r + ","+ g + "," + b +",0.5)"}));
-            }
-            
-            function minXAt(yFromTop){
-                return -1*getWidthAt(yFromTop)/2;
-            }
-            
-            function maxXAt(yFromTop){
-                return getWidthAt(yFromTop)/2;
+                boardSet.push(paper.circle(position.x, position.y, board.columnWidth()/10.0).attr({"fill":"rgba(" + r + ","+ g + "," + b +",0.5)"}));
+                boardSet.push(paper.circle(mouse.x, mouse.y, board.columnWidth()/15.0).attr({"fill":"rgba(" + r + ","+ g + "," + b +",0.5)"}));
             }
             
             function pointsLeft(xFromCenter, yFromTop){
@@ -165,39 +155,11 @@ define(function (require) {
                 return false;
             }
             
-            function getRowCount(){
-                return 4*board.size;
-            }
-            function getColumnCount(){
-                return board.size*2;
-            }
-            function getRowHeight(boardRadius){
-                var rowCount = getRowCount();
-                return 2.0*boardRadius/rowCount;
-            }
-            function getColumnWidth(boardRadius){
-                var equilateralTriangleHeight = Math.sqrt(3)/2.0;    
-                return equilateralTriangleHeight*board.radius/getColumnCount();
-            }
-            function getWidthAt(yFromTop){
-                var section = Math.floor(yFromTop/board.size);
-                var depthInSection = yFromTop%board.size;
-                if(section == 1 || section ==2){
-                    return 2*board.size;
-                }
-            
-                if(section == 3){
-                    depthInSection = board.size -depthInSection;
-                }
-                
-                return depthInSection*2;
-            }
-            
             function getScreenCoordinates(xFromCenter, yFromTop, centerX, centerY, boardRadius){
-                var rowCount = getRowCount();
-                var columnCount = getColumnCount();
-                var rowHeight = getRowHeight(boardRadius);
-                var columnWidth = getColumnWidth(boardRadius);
+                var rowCount = board.rowCount();
+                var columnCount = board.columnCount();
+                var rowHeight = board.rowHeight(boardRadius);
+                var columnWidth = board.columnWidth(boardRadius);
                 
                 var xFudge = (2*columnWidth/3)*( pointsLeft(xFromCenter,yFromTop)+ 2.5);
                 var yTop = centerY-(rowCount/2.0)*rowHeight;
@@ -212,14 +174,14 @@ define(function (require) {
             
             function getBoardCoordinates(screenX, screenY, board){
                 // centerX, centerY, boardRadius){
-                var centerX = board.center.x;
-                var centerY = board.center.y;
-                var boardRadius = board.radius;
+                var centerX = board.center().x;
+                var centerY = board.center().y;
+                var boardRadius = board.radius();
                 
-                var columnWidth = getColumnWidth(boardRadius);
+                var columnWidth = board.columnWidth();
                 var boardX = 0.5*(screenX - centerX)/columnWidth;
-                var rowHeight = getRowHeight(boardRadius);
-                var yTop = centerY - (rowHeight * getRowCount() /2);
+                var rowHeight = board.rowHeight(boardRadius);
+                var yTop = centerY - (rowHeight * board.rowCount() /2);
                 var boardY = (screenY - yTop) / rowHeight;
                 var slope;
                 var offset = 0;
@@ -255,7 +217,7 @@ define(function (require) {
             
             document.body.onkeypress=function(e){
                 if(e.charCode>=48&&e.charCode<=57){
-                    board.size = e.charCode - 48;
+                    board.set('size', e.charCode - 48);
                     drawBoard();
                     console.log("size", e.charCode - 48);
                 }
