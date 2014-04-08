@@ -6,8 +6,9 @@ define(function (require) {
      _         = require('underscore'),
      Backbone  = require('backbone'),
 
-     Board     = require('board'),
-     BoardView = require('boardView');
+     Board     = require('model/board'),
+     BoardView = require('view/boardView'),
+     Raphael = require('raphael');
 
   return Backbone.View.extend({
     initialize: function(){

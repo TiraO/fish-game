@@ -1,0 +1,7 @@
+cd /home/tirao/Applications/fish-game/
+
+alias grunt="/home/tirao/Applications/fish-game/node_modules/grunt-cli/bin/grunt"
+
+
+//installing raphael in a way that it can be loaded by require.
+// git submodule init && git submodule update && npm install

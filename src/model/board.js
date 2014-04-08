@@ -1,6 +1,7 @@
 define(function (require) {
-  var _           = require('underscore'),
-    Backbone    = require('backbone');
+  var 
+  _           = require('underscore'),
+  Backbone    = require('backbone');
 
 
   var cached = {
