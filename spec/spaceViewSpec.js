@@ -8,7 +8,7 @@ define(function (require) {
         var spaceView, spaceModel;
         beforeEach(function(){
           spaceModel = new Backbone.Model({
-            pieceModel: new Backbone.Model()
+            piece: new Backbone.Model()
           });
           
           pieceView = new Backbone.View();
@@ -17,10 +17,6 @@ define(function (require) {
             model: spaceModel,
             pieceView: pieceView
           });
-          
-          spaceModel = new Backbone.Model({
-            gamePieceModel: new Backbone.Model()
-          })
         });
         
         it('should render the piece', function(){

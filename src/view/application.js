@@ -52,7 +52,7 @@ define(function (require) {
       document.body.onmousemove=function(e){
         mouse.x = e.pageX;
         mouse.y = e.pageY;
-        drawMouseCircle();
+        // drawMouseCircle();
         // drawBoard();
       };
 
@@ -60,7 +60,6 @@ define(function (require) {
         if(e.charCode>=48&&e.charCode<=57){
           board.set('size', e.charCode - 48);
           boardView.render();
-          console.log("size", e.charCode - 48);
         }
       };
 

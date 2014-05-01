@@ -1,18 +1,23 @@
 define(function (require) {
   var _           = require('underscore'),
-      Backbone    = require('backbone');
+      Backbone    = require('backbone'),
+      SpaceView   = require('view/spaceView'),
+      Space       = require('model/space'),
+      Piece       = require('model/piece');
 
   return Backbone.View.extend({
     initialize: function(options){
       this.paperSet = options.paperSet;
       this.paper = options.paper;
     },
+    
     render: function(){
         this.paperSet.remove();
 
         this.drawCaves();
         this.drawTriangles();
         
+        this.initializeSpacesWithDefaultPieces();
         return this;
     },
     
@@ -24,7 +29,6 @@ define(function (require) {
         var pi = Math.PI;
 
         var d="M"+(centerX+Math.sin(pi*2/3)*boardRadius)+" "+(centerY+Math.cos(pi*2/3)*boardRadius);
-        console.log('d', d);
         for(var s=0; s<6; s++){
           var sidex1=centerX+Math.sin(pi*(2+s)/3)*boardRadius;
           var sidey1=centerY+Math.cos(pi*(2+s)/3)*boardRadius;
@@ -81,6 +85,67 @@ define(function (require) {
             fillColor = "rgba(255,155,155,0.5)";
           }
           this.paperSet.push(this.paper.circle(position.x, position.y, this.model.columnWidth()*0.5).attr({"fill":fillColor}));
+        }
+      }
+    },
+    
+    initializeSpacesWithDefaultPieces: function(){
+      //TODO: Backbone.Collections.
+      var defaultPieces = [
+       {species:'Shark'},
+       {species:'Flounder'},
+       {species:'Plankton'},
+       {species: 'Guppy'}, 
+       {species:'Clown Fish'}
+        ];
+      
+      var spaces = [];
+      var spaceHash = {};
+      var y;
+      for(y = 0; y< this.model.rowCount(); y++){
+        var x;
+        for(x = this.model.minXAt(y); x < this.model.maxXAt(y); x ++){
+          var space = new Space({
+            screenCoord: this.model.getScreenCoordinates(x,y),
+            boardCood: {x:x, y:y}
+          });
+          
+          spaces.push(space);
+          spaceHash[x] = spaceHash[x] || {};
+          spaceHash[x][y] = space;
+        }
+      }
+      
+      y = 3;
+      var i = 0;
+      var x;
+      for(x = this.model.minXAt(y); x < this.model.maxXAt(y); x ++ && i++){
+        if( spaceHash[x][y]){
+          spaceHash[x][y].set('piece', new Piece(defaultPieces[i]));
+        }
+      }
+      
+      //obviously move this out to draw method
+      _.each(spaces, _.bind(function(space){
+        // console.log(space.attributes);
+        var subSet = this.paper.set();
+        this.paperSet.push(subSet);
+        new SpaceView({model:space, paperSet: subSet, paper: this.paper}).render();
+      }, this));
+    },
+    
+    drawSpaces: function(){
+      var y;
+      for(y = 0; y< this.model.rowCount(); y++){
+        var x;
+        for(x = this.model.minXAt(y); x < this.model.maxXAt(y); x ++){
+          var subSet = this.paper.set();
+          this.paperSet.push(subSet);
+          var spaceView = new SpaceView({
+            screenCoord: this.model.getScreenCoordinates(x,y),
+            paperSet: subSet,
+            paper: this.paper
+          }).render();
         }
       }
     }

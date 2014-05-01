@@ -2,6 +2,25 @@ cd /home/tirao/Applications/fish-game/
 
 alias grunt="/home/tirao/Applications/fish-game/node_modules/grunt-cli/bin/grunt"
 
+python -m SimpleHTTPServer
+
+http://tirao.kd.io:8000
 
 //installing raphael in a way that it can be loaded by require.
 // git submodule init && git submodule update && npm install
+
+
+
+/********************************
+TODO:
+
+make raphael content stop rendering over jasmine specs.
+
+> give each object an appropriate subset that it can clear at the beginning of its render function.
+
+********************************/
+
+python -m SimpleHTTPServer
+
+http://tirao.kd.io:8000
+

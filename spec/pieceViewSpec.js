@@ -1,14 +1,15 @@
 define(function (require) {
   var PieceView = require('view/pieceView'),
       _ = require("underscore")
-      Raphael = require('raphael');
+      Raphael = require('raphael')
+      Piece = require('model/piece');
   
   describe("PieceView", function(){
     var pieceView, paper, paperSet;
     beforeEach(function(){
       paper = new Raphael(document.body, "100%", "100%");
       paperSet = paper.set();
-      pieceView = new PieceView({paperSet: paperSet, paper:paper});  
+      pieceView = new PieceView({paperSet: paperSet, paper:paper, model: new Piece()});  
     });
     
     describe('#render', function(){
