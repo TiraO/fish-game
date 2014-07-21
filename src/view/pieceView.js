@@ -18,7 +18,7 @@ define(function (require) {
       
       var circle = this.paper.circle(this.screenCoord.x, this.screenCoord.y, 40).attr({
         fill:this.model.get('isSelected')? '#572' : "#57A",
-        'fill-opacity':0.50
+        'fill-opacity':0.20
         
       });
       this.paperSet.push(circle);

@@ -16,8 +16,7 @@ TODO:
 
 make raphael content stop rendering over jasmine specs.
 
-> give each object an appropriate subset that it can clear at the beginning of its render function.
-
+> highlight the spaces around selected pieces.
 ********************************/
 
 python -m SimpleHTTPServer

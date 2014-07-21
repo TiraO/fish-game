@@ -5,8 +5,10 @@ define(function (require) {
   describe("SpaceView", function(){
     describe('#render', function(){
       describe('when the space contains a piece', function(){
-        var spaceView, spaceModel;
+        var spaceView, spaceModel, pieceView, paper, paperSet;
         beforeEach(function(){
+          paper = new Raphael(document.body, "100%", "100%");
+          paperSet = paper.set();
           spaceModel = new Backbone.Model({
             piece: new Backbone.Model()
           });
@@ -15,7 +17,9 @@ define(function (require) {
           
           spaceView = new SpaceView({
             model: spaceModel,
-            pieceView: pieceView
+            pieceView: pieceView,
+            paper: new Raphael(document.body, "100%", "100%"),
+            paperSet: paperSet
           });
         });
         
@@ -23,6 +27,13 @@ define(function (require) {
           spyOn(pieceView, 'render');
           spaceView.render();
           expect(pieceView.render).toHaveBeenCalled();
+        });
+        
+        describe("when the piece is selected", function(){
+          it("should hightlight the space", function(){
+            spaceView.render();
+            expect(paperSet.pop().attr('height')).toEqual('#F00');
+          });
         });
       });
     });

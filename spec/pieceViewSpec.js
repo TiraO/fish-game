@@ -9,7 +9,12 @@ define(function (require) {
     beforeEach(function(){
       paper = new Raphael(document.body, "100%", "100%");
       paperSet = paper.set();
-      pieceView = new PieceView({paperSet: paperSet, paper:paper, model: new Piece()});  
+      pieceView = new PieceView({
+        paperSet: paperSet, 
+        paper:paper, 
+        model: new Piece(),
+        screenCoord: {}
+      });  
     });
     
     describe('#render', function(){
