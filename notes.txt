@@ -4,7 +4,7 @@ alias grunt="/home/tirao/Applications/fish-game/node_modules/grunt-cli/bin/grunt
 
 python -m SimpleHTTPServer
 
-http://tirao.kd.io:8000
+http://vm-0.tirao.kd.io:8000
 
 //installing raphael in a way that it can be loaded by require.
 // git submodule init && git submodule update && npm install

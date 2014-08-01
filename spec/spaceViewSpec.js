@@ -29,8 +29,10 @@ define(function (require) {
           expect(pieceView.render).toHaveBeenCalled();
         });
         
-        describe("when the piece is selected", function(){
-          it("should hightlight the space", function(){
+        xdescribe("when the piece is selected", function(){
+
+          
+          it("should hightlight the piece", function(){
             spaceView.render();
             expect(paperSet.pop().attr('height')).toEqual('#F00');
           });

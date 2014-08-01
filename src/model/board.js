@@ -112,6 +112,24 @@ define(function (require) {
         x: (xFromCenter -0.5)*2*this.columnWidth() + this.center().x + xFudge,
         y: yTop + yFromTop*this.rowHeight()
       };
+    },
+    
+    coordsAtDistance: function(startCoords, distance){
+      if(distance == 1){
+        var above = {xFromCenter:startCoords.xFromCenter, yFromTop:startCoords.yFromTop - 1};
+        var below = {xFromCenter:startCoords.xFromCenter, yFromTop:startCoords.yFromTop + 1};
+        var left = {xFromCenter:startCoords.xFromCenter -1, yFromTop:startCoords.yFromTop};
+        var right = {xFromCenter:startCoords.xFromCenter +1, yFromTop:startCoords.yFromTop};
+        
+        if(this.tilePointsLeft(startCoords.xFromCenter, startCoords.yFromTop)){
+          return [above, below, right];
+        } else {
+          return [above, below, left];
+        }  
+      } else {
+        throw "coordsAtDistance Not implemented for distance " + distance;
+      }
+      
     }
 
   });
