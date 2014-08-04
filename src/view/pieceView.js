@@ -25,7 +25,6 @@ define(function (require) {
 
       
       circle.click(_.bind(function () {
-            console.log('this seleceted', this.model.get('isSelected'));
             this.model.set('isSelected', !this.model.get('isSelected'));
             this.render();
          }, this));

@@ -20,14 +20,14 @@ define(function (require) {
         };
 
 
-      var board= new Board({
+      var board = new Board({
         size: 4,
         center: {
           x: parseFloat(getComputedStyle(document.documentElement).width)/2,
           y: parseFloat(getComputedStyle(document.documentElement).height)/2
         }
       });
-
+      
       var cardTypes=["Put back a F.F.F. card.","Pick up a F.F.F. card.","Lose next turn.","Escape to the nearest cave."];
       var deck=[];
 
