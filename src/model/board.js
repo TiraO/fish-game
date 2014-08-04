@@ -127,30 +127,43 @@ define(function (require) {
         }
     },
     
+    maxDistance: function(){
+      //should probably bump this up to include caves.
+      return this.size()*4 -1;  
+    },
+    
     coordsAtDistance: function(startCoords, distance){
+      if(distance > this.maxDistance()){
+        return [];
+      }
+      
       if(distance == 1){
           return this.adjacentCoords(startCoords);
       } else {
         var atDistance = {};
         atDistance[0] = [startCoords];
         atDistance[1] = this.adjacentCoords(startCoords);
-        atDistance[2] = [];
+        
         var board = this;
-        
-        _.each(atDistance[1], function(coords){
-          var nextMaybes = board.adjacentCoords(coords);
-          var yeses =  _.filter(nextMaybes, function(maybe){
-            return !_.findWhere(atDistance[0], maybe) && !_.findWhere(atDistance[2], maybe);
+        var dist = 2;
+        var collectCoords = function(dist){
+          atDistance[dist] = [];
+          _.each(atDistance[dist - 1], function(coords){
+            var nextMaybes = board.adjacentCoords(coords);
+            var yeses =  _.filter(nextMaybes, function(maybe){
+              return !_.findWhere(atDistance[dist - 2], maybe) && !_.findWhere(atDistance[dist], maybe);
+            });
+            
+            atDistance[dist] = atDistance[dist].concat(yeses);
           });
-          
-          atDistance[2] = atDistance[2].concat(yeses);
-        });
+        }
         
-        if(distance == 2){
-          return atDistance[2];
-        } 
+        do{
+          collectCoords(dist);
+          dist ++;
+        } while (dist <= distance && dist < this.maxDistance());
         
-        throw "coordsAtDistance Not implemented for distance " + distance;
+        return atDistance[distance];
       }
     }
   });

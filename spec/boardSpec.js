@@ -29,6 +29,15 @@ define(function (require) {
       });
     });
     
+    describe("#maxDistance", function(){
+      it("returns the distance between the two furthest tiles", function(){
+        board.set("size", 3);
+        expect(board.maxDistance()).toEqual(11);
+        board.set("size", 2);
+        expect(board.maxDistance()).toEqual(7);
+      });
+    })
+    
     describe("#coordsAtDistance", function(){
        var startLoc;
       beforeEach(function(){
