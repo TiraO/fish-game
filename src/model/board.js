@@ -114,9 +114,8 @@ define(function (require) {
       };
     },
     
-    coordsAtDistance: function(startCoords, distance){
-      if(distance == 1){
-        var above = {xFromCenter:startCoords.xFromCenter, yFromTop:startCoords.yFromTop - 1};
+    adjacentCoords: function(startCoords) {
+      var above = {xFromCenter:startCoords.xFromCenter, yFromTop:startCoords.yFromTop - 1};
         var below = {xFromCenter:startCoords.xFromCenter, yFromTop:startCoords.yFromTop + 1};
         var left = {xFromCenter:startCoords.xFromCenter -1, yFromTop:startCoords.yFromTop};
         var right = {xFromCenter:startCoords.xFromCenter +1, yFromTop:startCoords.yFromTop};
@@ -125,12 +124,34 @@ define(function (require) {
           return [above, below, right];
         } else {
           return [above, below, left];
-        }  
+        }
+    },
+    
+    coordsAtDistance: function(startCoords, distance){
+      if(distance == 1){
+          return this.adjacentCoords(startCoords);
       } else {
+        var atDistance = {};
+        atDistance[0] = [startCoords];
+        atDistance[1] = this.adjacentCoords(startCoords);
+        atDistance[2] = [];
+        var board = this;
+        
+        _.each(atDistance[1], function(coords){
+          var nextMaybes = board.adjacentCoords(coords);
+          var yeses =  _.filter(nextMaybes, function(maybe){
+            return !_.findWhere(atDistance[0], maybe) && !_.findWhere(atDistance[2], maybe);
+          });
+          
+          atDistance[2] = atDistance[2].concat(yeses);
+        });
+        
+        if(distance == 2){
+          return atDistance[2];
+        } 
+        
         throw "coordsAtDistance Not implemented for distance " + distance;
       }
-      
     }
-
   });
 });
