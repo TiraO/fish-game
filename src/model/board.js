@@ -131,6 +131,37 @@ define(function (require) {
       //should probably bump this up to include caves.
       return this.size()*4 -1;  
     },
+
+    coordsWithValidPath: function(startCoords, pathLength, piece){
+      if(distance > this.maxDistance()){
+        return [];
+      }
+    
+      var atDistance = {};
+      atDistance[0] = [startCoords];
+      
+      var board = this;
+      var dist = 1;
+      var collectCoords = function(dist){
+        atDistance[dist] = [];
+        _.each(atDistance[dist - 1], function(coords){
+          var nextMaybes = board.adjacentCoords(coords);
+          var yeses =  _.filter(nextMaybes, function(maybe){
+            var space = this.getSpace(maybe);
+            return (space.isEmpty() || piece.canDevour(space.getPiece())) && !_.findWhere(atDistance[dist], maybe);
+          });
+          
+          atDistance[dist] = atDistance[dist].concat(yeses);
+        });
+      }
+      
+      do{
+        collectCoords(dist);
+        dist ++;
+      } while (dist <= distance && dist < this.maxDistance());
+      
+      return atDistance[distance];
+    },
     
     coordsAtDistance: function(startCoords, distance){
       if(distance > this.maxDistance()){
@@ -142,10 +173,9 @@ define(function (require) {
       } else {
         var atDistance = {};
         atDistance[0] = [startCoords];
-        atDistance[1] = this.adjacentCoords(startCoords);
         
         var board = this;
-        var dist = 2;
+        var dist = 1;
         var collectCoords = function(dist){
           atDistance[dist] = [];
           _.each(atDistance[dist - 1], function(coords){

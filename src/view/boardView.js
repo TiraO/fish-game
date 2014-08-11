@@ -132,6 +132,8 @@ define(function (require) {
         this.paperSet.push(subSet);
         new SpaceView({model:space, paperSet: subSet, paper: this.paper}).render();
       }, this));
+
+      this.model.set('spaces', spaceHash);
     },
     
     drawSpaces: function(){
