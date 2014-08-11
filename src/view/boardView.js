@@ -137,6 +137,7 @@ define(function (require) {
     },
     
     drawSpaces: function(){
+      // var validMoves = this.model.coordsWithValidPath()
       var y;
       for(y = 0; y< this.model.rowCount(); y++){
         var x;

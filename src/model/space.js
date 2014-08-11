@@ -10,6 +10,14 @@ define(function (require) {
         piece: null,
         screenCoord: null
       };
+    },
+
+    remove: function(){
+      this.set('piece', null);
+    },
+
+    add: function(piece){
+      this.set('piece', piece);
     }
   });
 });

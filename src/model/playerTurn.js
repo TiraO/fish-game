@@ -10,13 +10,18 @@ define(function (require) {
         piece: null,
         startCoords: null,
         startSpace: null,
-        endSpace: null
+        endSpace: null,
+        completeCallback: null
       };
     },
 
     complete: function(){
       this.get('startSpace').remove(this.get('piece'));
       this.get('endSpace').add(this.get('piece'));
+      var callback = this.get('completeCallback');
+      if(callback){
+        callback();
+      }
     }
 
     // undo: function(){
