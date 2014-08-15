@@ -3,12 +3,14 @@ define(function (require) {
   "use strict";
 
   var
-     _         = require('underscore'),
-     Backbone  = require('backbone'),
+     _          = require('underscore'),
+     Backbone   = require('backbone'),
 
-     Board     = require('model/board'),
-     BoardView = require('view/boardView'),
-     Raphael = require('raphael');
+     Board      = require('model/board'),
+     BoardView  = require('view/boardView'),
+     Raphael    = require('raphael'),
+     TurnEngine = require('view/turnEngine'),
+     Player     = require('model/player');
 
   return Backbone.View.extend({
     initialize: function(){
@@ -27,6 +29,17 @@ define(function (require) {
           y: parseFloat(getComputedStyle(document.documentElement).height)/2
         }
       });
+
+      var player1 = new Player({
+        board: board,
+        pieces: board.initializePlayer1Pieces()
+      });
+
+      var player2 = new Player({
+        board: board,
+        pieces: board.initializePlayer2Pieces()
+      });
+
       
       var cardTypes=["Put back a F.F.F. card.","Pick up a F.F.F. card.","Lose next turn.","Escape to the nearest cave."];
       var deck=[];
@@ -38,6 +51,15 @@ define(function (require) {
       var mouse = {};
       var boardView = new BoardView({model:board, paperSet:boardSet, paper:paper});
       boardView.render();
+
+      var turnEngine = new TurnEngine({
+        board: board,
+        boardView: boardView,
+        players: [player1, player2]
+      });
+
+      turnEngine.nextTurn();
+      
 
       function drawMouseCircle(){
         var mouseSpace =  board.getTileCoordinates(mouse);

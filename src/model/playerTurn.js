@@ -11,6 +11,7 @@ define(function (require) {
         startCoords: null,
         startSpace: null,
         endSpace: null,
+        validMoves: [],
         completeCallback: null
       };
     },

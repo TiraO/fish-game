@@ -16,9 +16,9 @@ define(function (require) {
       });
       this.paperSet.push(text);
       
-      var circle = this.paper.circle(this.screenCoord.x, this.screenCoord.y, 40).attr({
-        fill:this.model.get('isSelected')? '#572' : "#57A",
-        'fill-opacity':0.20
+      var circle = this.paper.circle(this.screenCoord.x, this.screenCoord.y, 10).attr({
+        fill:this.model.get('team') == 'player2'? '#F00' : "#0F0",
+        'fill-opacity':0.80
         
       });
       this.paperSet.push(circle);

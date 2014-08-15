@@ -5,11 +5,11 @@ define(function (require) {
 
   return Backbone.Model.extend({
     speciesTypes: {
-       'Shark':{ moves: [5, 6], strength: 3},
-       'Flounder':{ moves: [4], strength: 2},
-       'Guppy':{ moves: [3], strength: 2}, 
-       'Clown Fish':{ moves: [2], strength: 2},
-       'Plankton':{ moves: [1], strength: 1}
+       'Shark':{ moves: [4, 5], strength: 3},
+       'Flounder':{ moves: [3], strength: 2},
+       'Guppy':{ moves: [2], strength: 2}, 
+       'Clown Fish':{ moves: [1], strength: 2},
+       'Plankton':{ moves: [0], strength: 1}
     },
 
     defaults: function(){
@@ -21,9 +21,12 @@ define(function (require) {
     },
 
     canDevour: function(otherPiece){
-        return this.get('team') != otherPiece.get('team') && speciesTypes[this.get('species')].strength >= speciesTypes[otherPiece.get('species')].strength;
+        return this.get('team') != otherPiece.get('team') && 
+          this.speciesTypes[this.get('species')].strength >= this.speciesTypes[otherPiece.get('species')].strength;
     },
 
-
+    getMoves: function(){
+      return this.speciesTypes[this.get('species')]["moves"];
+    }
   });
 });

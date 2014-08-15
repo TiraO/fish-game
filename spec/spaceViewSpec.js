@@ -19,7 +19,8 @@ define(function (require) {
             model: spaceModel,
             pieceView: pieceView,
             paper: new Raphael(document.body, "100%", "100%"),
-            paperSet: paperSet
+            paperSet: paperSet,
+            screenCoord: {}
           });
         });
         

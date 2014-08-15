@@ -16,12 +16,23 @@ define(function (require) {
     },
     
     render: function(){
-      console.log(this.paperSet);
       this.paperSet.remove();
+      var rect = this.paper.rect(this.screenCoord.x,this.screenCoord.y,10,10).attr({ fill:"#FAA"});
+      if(this.model.clickCallback){
+        rect.attr({fill:"#030"});
+      }
+
+      this.paperSet.push(rect);
+      rect.click(_.bind(function(){
+        console.log('seeking callback for space', this.model.attributes);
+        if(this.model.clickCallback){
+          console.log('and there was a callback');
+          this.model.clickCallback(this.model);
+        }
+      }, this));
+
       if(this.model.get('piece')){
         var piece = this.model.get('piece');
-        // console.log(piece.attributes);
-        // pieceView = new PieceView({model:piece, screenCoord:this.model.get('screenCoord'), paperSet: this.paperSet, paper: this.paper});
         this.pieceView.model = piece;
         this.pieceView.render();
       }

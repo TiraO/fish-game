@@ -8,6 +8,7 @@ define(function (require) {
       return {
         isValidMoveForSelectedPiece: false,
         piece: null,
+        boardCoord: null,
         screenCoord: null
       };
     },
@@ -18,6 +19,20 @@ define(function (require) {
 
     add: function(piece){
       this.set('piece', piece);
+    },
+
+    click: function(clickCallback){
+      console.log('setting click callback for space', this.get('boardCoord'), this.attributes);
+      console.log('attr', this.attributes);
+      this.clickCallback = clickCallback;
+    },
+
+    isEmpty: function(){
+      return !this.get('piece');
+    },
+
+    getPiece: function(){
+      return this.get('piece');
     }
   });
 });

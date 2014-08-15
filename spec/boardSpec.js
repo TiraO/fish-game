@@ -1,5 +1,6 @@
 define(function (require) {
   var Board = require('model/board'),
+      Piece = require('model/piece'),
       Backbone  = require('backbone');
   
   describe("Board", function(){
@@ -14,6 +15,33 @@ define(function (require) {
         });
     });
     
+    describe("#getPieceCoords", function(){
+      var piece;
+      beforeEach(function(){
+        piece = new Piece({species: 'Banana'});
+        board.get('spaces')[1][2].set('piece', piece);
+      });
+
+      it("should return the coordinates of the piece", function(){
+        var coords = board.getPieceCoords(piece);
+        expect(coords.xFromCenter).toBe(1);
+        expect(coords.yFromTop).toBe(2);
+      });
+    });
+
+    describe("#getPieceSpace", function(){
+      var piece;
+      beforeEach(function(){
+        piece = new Piece({species: 'Banana'});
+        board.get('spaces')[1][2].set('piece', piece);
+      });
+
+      it("should return the space with the piece", function(){
+        var space = board.getPieceSpace(piece);
+        expect(space).toBe(board.get('spaces')[1][2]);
+      });
+    });
+
     describe("#adjacentCoords", function(){
       var startLoc;
       beforeEach(function(){
