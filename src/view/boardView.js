@@ -98,7 +98,6 @@ define(function (require) {
           var subSet = this.paper.set();
           this.paperSet.push(subSet);
           var screenCoord = space.get('screenCoord');
-          console.log('space', space);
           new SpaceView({
             model:space, 
             paperSet: subSet, 

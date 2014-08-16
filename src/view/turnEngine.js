@@ -23,7 +23,8 @@ define(function (require) {
         if(_.find(player.get('pieces'), _.bind(function(piece){
           return this.board.getPieceSpace(piece);
         }, this))){
-          alert('skipping your turn');
+          console.log('player ' + piece.get('team') + ' has rolled a ' + dieRoll + ' and her ' + piece.get('species') + 'is being returne to the board');
+          this.board.get('spaces')[0][this.board.rowCount() / 2].set('piece', piece);
           this.nextTurn();
         } else {
 
@@ -45,6 +46,7 @@ define(function (require) {
         validMoves: this.board.coordsWithValidPath(startCoords, dieRoll + 1, piece),
         completeCallback: _.bind(this.nextTurn, this)
       });
+      
 
       var playerView = new PlayerView({
         model:player,

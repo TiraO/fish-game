@@ -7,6 +7,8 @@ define(function (require) {
   	},
 
   	takeTurn: function(turn){
+      turn.get('piece').set('isSelected', true);
+
   		var spaces = this.board.get('spaces');
   		_.each(turn.get('validMoves'), function(validMove){
   			var space = spaces[validMove.xFromCenter][validMove.yFromTop];
