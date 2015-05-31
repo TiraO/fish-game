@@ -11,7 +11,7 @@ define(function (require) {
     radius: undefined
   };
 
-  var equilateralTriangleHeight = Math.sqrt(3)/2.0;
+  var equilateralTriangleHeightRatio = Math.sqrt(3)/2.0;
 
   return Backbone.Model.extend({
     defaults: function(){
@@ -78,7 +78,7 @@ define(function (require) {
     },
 
     columnWidth: function(){
-      return equilateralTriangleHeight*this.radius()/this.columnCount();
+      return equilateralTriangleHeightRatio*this.radius()/this.columnCount();
     },
 
     tilePointsLeft: function(xFromCenter, yFromTop){

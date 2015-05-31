@@ -9,7 +9,8 @@ define(function (require) {
         isValidMoveForSelectedPiece: false,
         piece: null,
         boardCoord: null,
-        screenCoord: null
+        screenCoord: null,
+        isCoral: false
       };
     },
 

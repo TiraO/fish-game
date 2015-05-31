@@ -82,6 +82,7 @@ define(function (require) {
           var fillColor;
           if((Math.abs(xFromCenter+yFromTop+0.5))%4<=0.5 && (Math.abs(xFromCenter-yFromTop+0.5))%3<=0.75){
             fillColor = "#FF0";//rgba(255,255,155,1)";
+            //the space here is coral
           }else{
             fillColor = "rgba(255,155,155,0.5)";
           }
