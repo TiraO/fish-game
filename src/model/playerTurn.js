@@ -19,6 +19,7 @@ define(function (require) {
     complete: function(){
       this.get('startSpace').remove(this.get('piece'));
       this.get('endSpace').add(this.get('piece'));
+      this.get('piece').set('isSelected', false);
       var callback = this.get('completeCallback');
       if(callback){
         callback();

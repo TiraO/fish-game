@@ -18,6 +18,7 @@ define(function (require) {
       var player = this.getNextPlayer();
       var dieRoll = Math.floor(Math.random()*6);
       var piece = player.getPieceForDieRoll(dieRoll);
+
       var startCoords = this.board.getPieceCoords(piece);
       if(!startCoords){
         if(_.find(player.get('pieces'), _.bind(function(piece){
@@ -37,6 +38,7 @@ define(function (require) {
       console.log('NEXT TURN STARTING', startCoords);
 
       var startSpace = this.board.getPieceSpace(piece);
+      piece.set('isSelected',true);
       //TODO: human should move one space at a time.
       var playerTurn = new PlayerTurn({
         pathLength: dieRoll, 

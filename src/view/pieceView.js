@@ -35,10 +35,10 @@ define(function (require) {
       this.paperSet.push(circle);
 
       
-      circle.click(_.bind(function () {
-            this.model.set('isSelected', !this.model.get('isSelected'));
-            this.render();
-         }, this));
+      // circle.click(_.bind(function () {
+      //       this.model.set('isSelected', !this.model.get('isSelected'));
+      //       this.render();
+      //    }, this));
     }
   });
 });
